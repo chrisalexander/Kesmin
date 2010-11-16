@@ -1,0 +1,7 @@
+{
+	"kestrel": {
+		"default": {
+			"default":{"host":"localhost","port":22133}
+		}
+	}
+}

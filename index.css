@@ -1,0 +1,40 @@
+body {
+	text-align: center;
+	background-image: -webkit-gradient(
+			linear,
+			left 600,
+			left top,
+			color-stop(1, rgb(222,222,222)),
+			color-stop(0, rgb(255,255,255))
+			);
+	font-family: Arial, sans;
+	}
+
+section {
+	width: 800px;
+	margin: 0px auto;
+	text-align: left;
+	border: 1px solid #b3b3b3;
+	background-color: #fff;
+	padding: 10px;
+	}
+
+article {
+	margin: 5px 0px 0px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #b3b3b3;
+	}
+
+h1, h2 {
+	margin: 0px 0px 5px; padding: 0px;
+	}
+
+form {
+	margin-bottom: 0px;
+	}
+
+footer {
+	margin: 10px 0px 0px;
+	text-align: right;
+	font-size: 12px;
+	}
