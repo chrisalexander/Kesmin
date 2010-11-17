@@ -61,19 +61,30 @@ class Kestrel_Stats extends Kesmin_Output
 		$d = explode("\r\n", $data);
 
 		foreach ($d as $stat) {
-			if (strpos($stat, 'STAT queue') !== false) {
-				$statdata = explode(' ', $stat);
-				$queuedata = explode('_', $statdata[1]);
-				if ((!isset($stats[$queuedata[1]])) || (!is_array($stats[$queuedata[1]])))  {
-					$stats[$queuedata[1]] = array();
-				}
-				
-				// special case to expand children
-				if (($queuedata[2] == 'children') && (strlen(trim($statdata[2])) > 0)) {
-					$statdata[2] = explode(',', $statdata[2]);
-				}
+			$matches = array();
+			if(preg_match('/^STAT queue_(.*)(_total_items) (.*)$/', $stat, $matches) ||
+				preg_match('/^STAT queue_(.*)(_expired_items) (.*)$/', $stat, $matches) ||
+				preg_match('/^STAT queue_(.*)(_mem_items) (.*)$/', $stat, $matches) ||
+				preg_match('/^STAT queue_(.*)(_items) (.*)$/', $stat, $matches) ||
+				preg_match('/^STAT queue_(.*)(_logsize) (.*)$/', $stat, $matches) ||
+				preg_match('/^STAT queue_(.*)(_mem_bytes) (.*)$/', $stat, $matches) ||
+				preg_match('/^STAT queue_(.*)(_age) (.*)$/', $stat, $matches) ||
+				preg_match('/^STAT queue_(.*)(_discarded) (.*)$/', $stat, $matches) ||
+				preg_match('/^STAT queue_(.*)(_waiters) (.*)$/', $stat, $matches) ||
+				preg_match('/^STAT queue_(.*)(_children) (.*)$/', $stat, $matches) ||
+				preg_match('/^STAT queue_(.*)(_bytes) (.*)$/', $stat, $matches)
+				)
+			{
+				$type = substr($matches[2], 1);
+				$q_name = $matches[1];
+				$val = $matches[3];
 
-				$stats[$queuedata[1]][$queuedata[2]] = $statdata[2];
+				// special case to expand children
+				if (($type == 'children') && (strlen(trim($val)) > 0))
+				{
+					$val = explode(',', $val);
+				}
+				$stats[$q_name][$type] = $val;
 			}
 		}
 		ksort($stats);
